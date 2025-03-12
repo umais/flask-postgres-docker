@@ -26,7 +26,10 @@ Create a .env file in the root directory to store sensitive information (like pa
 ```bash
 touch .env
 
+```
+Add the following variables to the .env file:
 
+```bash
 DB_HOST=flaskapi_postgresql
 DB_NAME=flaskapi_db
 DB_USER=admin
@@ -34,6 +37,9 @@ DB_PASS=Express1234%
 POSTGRES_USER=admin
 POSTGRES_PASSWORD=Express1234%
 POSTGRES_DB=flaskapi_db
+```
+**Note:** Be sure to replace the passwords and other sensitive data with your own values. Do not commit this file to version control. Add .env to your .gitignore to prevent it from being pushed to GitHub.
 
+```bash
 echo ".env" >> .gitignore
 ```
