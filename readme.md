@@ -18,3 +18,22 @@ Clone this repository to your local machine:
 ```bash
 git clone https://github.com/your-username/flask-postgres-docker.git
 cd flask-postgres-docker
+
+```
+### 2. Configure the .env File
+Create a .env file in the root directory to store sensitive information (like passwords and database names).
+
+```bash
+touch .env
+
+
+DB_HOST=flaskapi_postgresql
+DB_NAME=flaskapi_db
+DB_USER=admin
+DB_PASS=Express1234%
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=Express1234%
+POSTGRES_DB=flaskapi_db
+
+echo ".env" >> .gitignore
+```

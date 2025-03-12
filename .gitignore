@@ -1,0 +1,29 @@
+# Ignore environment variables
+.env
+.env.local
+.env.development
+.env.production
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore Docker build files
+*.tar
+*.bak
+*.swp
+*.swo
+
+# Ignore PostgreSQL data volume
+pgdata/
+
+# Ignore compiled Python files
+*.pyc
+*.pyo
+*.pyd
