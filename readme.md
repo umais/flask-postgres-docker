@@ -16,7 +16,7 @@ Follow these steps to get the project up and running.
 Clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/flask-postgres-docker.git
+git clone https://github.com/umais/flask-postgres-docker.git
 cd flask-postgres-docker
 
 ```
