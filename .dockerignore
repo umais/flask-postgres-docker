@@ -1,0 +1,25 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore version control
+.git/
+.gitignore
+
+# Ignore dependencies
+node_modules/
+venv/
+__pycache__/
+*.pyc
+
+# Ignore secrets
+.env
+secrets.json
+config.yaml
+
+# Ignore build outputs
+build/
+dist/
+*.log
+*.sqlite3
+*.db
