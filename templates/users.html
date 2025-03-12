@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Users List</h2>
+    <div class="row" id="users-list">
+      <!-- User cards will be inserted here -->
+    </div>
+  </div>
+  <script>
+    // Function to fetch and display users as cards
+    function loadUsers() {
+      $.get('/api/users', function(data) {
+        let usersHtml = '';
+        data.forEach(user => {
+          usersHtml += `
+            <div class="col-md-4">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">${user.UserName}</h5>
+                  <p class="card-text">Email: ${user.email}</p>
+                  <p class="card-text"><small class="text-muted">Date Created: ${user.date_created}</small></p>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        $('#users-list').html(usersHtml);
+      }).fail(function() {
+        alert("Failed to load users");
+      });
+    }
+
+    // Call the loadUsers function when the page is ready
+    $(document).ready(function() {
+      loadUsers();
+    });
+  </script>
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 import psycopg2
 import bcrypt
 import os
@@ -12,6 +12,9 @@ DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")  
 DB_PASS = os.getenv("DB_PASS")  
 
+
+
+
 # Connect to PostgreSQL
 def get_db_connection():
     return psycopg2.connect(
@@ -22,15 +25,15 @@ def get_db_connection():
     )
 
 # Regular root endpoint
-@app.route('/')
-def index():
+@app.route('/api', methods=['POST'])
+def api():
     # Get the container's hostname
     container_name = socket.gethostname()
     
     # Return a welcome message with the container's name
     return f"Welcome! You are running Flask on Docker container: {container_name}"
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register_user():
     try:
         data = request.get_json()
@@ -57,7 +60,7 @@ def register_user():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-@app.route('/users', methods=['GET'])
+@app.route('/api/users', methods=['GET'])
 def get_users():
     try:
         conn = get_db_connection()
@@ -84,6 +87,30 @@ def get_users():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/')
+def index():
+    # Get the container's hostname
+    container_name = socket.gethostname()
+
+    # Render an HTML page
+    return render_template('index.html', container_name=container_name)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/projects')
+def projects():
+    return render_template('projects.html')
+
+@app.route('/announcements')
+def announcements():
+    return render_template('announcements.html')
+
+@app.route('/users', methods=['GET'])
+def users_page():
+    return render_template('users.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
