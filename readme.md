@@ -43,3 +43,105 @@ POSTGRES_DB=flaskapi_db
 ```bash
 echo ".env" >> .gitignore
 ```
+
+### 3. Build and Start the Containers
+
+Once the .env file is set up, use Docker Compose to build and start the containers:
+
+```bash
+
+docker-compose up -d --build
+
+```
+
+This command does the following:
+
+Builds the Flask application image.
+
+Starts the Flask app and PostgreSQL containers.
+
+Initializes the database using init.sql if it's the first time the database is being set up.
+
+### 4. Accessing the Application
+
+After the containers are up and running, the Flask app should be accessible at:
+
+```bash
+
+http://localhost:5000
+```
+
+You can test the app by visiting the root endpoint to see a welcome message and confirm that Flask is running properly.
+
+### 5. Stopping the Containers
+
+To stop the containers, run:
+
+```bash
+docker-compose down
+
+```
+
+This will stop and remove the containers, but the data in the PostgreSQL container will persist because it's stored in a Docker volume (pgdata).
+
+### 6. Removing All Containers and Volumes
+
+To remove all containers and volumes (including PostgreSQL data), run:
+
+```bash
+
+docker-compose down -v
+```
+
+
+### 7. Useful Docker Commands
+
+List all running containers:
+
+```bash
+
+docker ps
+
+```
+View logs of a specific container (e.g., flask_app):
+
+```bash
+
+docker logs flask_app
+
+```
+Access the Flask app container's shell:
+
+```bash
+
+docker exec -it flask_app bash
+
+```
+
+Access the PostgreSQL container's shell:
+
+```bash
+
+docker exec -it flaskapi_postgresql bash
+
+```
+
+
+Access the PostgreSQL CLI:
+
+```bash
+
+psql -U admin -d flaskapi_db
+
+```
+
+### Endpoints
+
+GET /
+Returns a welcome message indicating that Flask is running inside a Docker container.
+
+GET /users
+Fetches all users from the database.
+
+POST /users
+Adds a new user to the database. The request body should include UserName, email, and password.
