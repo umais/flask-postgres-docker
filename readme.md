@@ -133,6 +133,36 @@ Access the PostgreSQL CLI:
 
 psql -U admin -d flaskapi_db
 
+
+
+```
+
+Get All Tables POSTGRESQL
+
+```bash
+SELECT * FROM information_schema.tables 
+WHERE table_schema = 'public';
+
+```
+
+Get All Objects
+
+```bash
+SELECT * FROM pg_catalog.pg_class;
+
+SELECT * FROM pg_indexes 
+WHERE schemaname = 'public';
+
+```
+
+Reset Container Database & Some debugging options
+
+```bash
+
+docker-compose down -v  # -v removes associated volumes only use when want to recreate database
+docker builder prune   # delete all cache
+docker-compose up -d
+docker logs <container_id>
 ```
 
 ### Endpoints
