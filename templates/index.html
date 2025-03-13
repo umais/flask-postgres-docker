@@ -7,7 +7,7 @@
     <!-- Login Form -->
     <div class="container mt-5">
       <h1 class="text-center">Login</h1>
-      <form action="/login" method="POST">
+      <form id="loginForm">
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
@@ -19,4 +19,32 @@
         <button type="submit" class="btn btn-primary btn-block">Login</button>
       </form>
     </div>
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+  
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+  
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Basic " + btoa(username + ":" + password)  // Basic Authentication
+          }
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          // Store token in localStorage
+          localStorage.setItem("token", data.token);
+  
+          // Redirect to Dashboard
+          window.location.href = "/dashboard";
+        } else {
+          alert("Login failed: " + (data.error || "Invalid credentials"));
+        }
+      });
+    </script>
 {% endblock %}

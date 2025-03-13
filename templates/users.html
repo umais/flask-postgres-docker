@@ -2,15 +2,29 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Users List</h2>
-    <div class="row" id="users-list">
-      <!-- User cards will be inserted here -->
-    </div>
+  <h2>Users List</h2>
+  <div class="row" id="users-list">
+    <!-- User cards will be inserted here -->
   </div>
-  <script>
-    // Function to fetch and display users as cards
-    function loadUsers() {
-      $.get('/api/users', function(data) {
+</div>
+
+<script>
+  // Function to fetch and display users as cards
+  function loadUsers() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Unauthorized! Please log in.");
+      window.location.href = "/";
+      return;
+    }
+
+    $.get({
+      url: '/api/users',
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+      success: function(data) {
         let usersHtml = '';
         data.forEach(user => {
           usersHtml += `
@@ -26,14 +40,19 @@
           `;
         });
         $('#users-list').html(usersHtml);
-      }).fail(function() {
+      },
+      error: function() {
         alert("Failed to load users");
-      });
-    }
-
-    // Call the loadUsers function when the page is ready
-    $(document).ready(function() {
-      loadUsers();
+        window.location.href = "/";
+      return;
+      }
     });
-  </script>
+  }
+
+  // Call the loadUsers function when the page is ready
+  $(document).ready(function() {
+    loadUsers();
+  });
+</script>
+
 {% endblock %}

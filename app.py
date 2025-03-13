@@ -14,6 +14,9 @@ DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")  
 DB_PASS = os.getenv("DB_PASS")  
 
+# List of routes to exclude from token verification
+EXCLUDED_ROUTES = ["/api/login", "/", "/about","/announcements","/projects","/dashboard","/users"]
+
 SECRET_KEY = os.getenv("SECRET_KEY") 
 
 
@@ -25,6 +28,27 @@ def get_db_connection():
         user=DB_USER,
         password=DB_PASS
     )
+
+
+
+
+@app.before_request
+def verify_token():
+    # Skip verification for excluded routes
+    if request.path in EXCLUDED_ROUTES:
+        return
+
+    token = request.headers.get("Authorization")
+    if not token:
+        return jsonify({"error": "Missing token"}), 403
+    
+    token = token.replace("Bearer ", "")
+    try:
+        jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token expired"}), 403
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token"}), 403
 
 # Regular root endpoint
 @app.route('/api', methods=['POST'])
@@ -156,6 +180,10 @@ def announcements():
 @app.route('/users', methods=['GET'])
 def users_page():
     return render_template('users.html')
+
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    return render_template('dashboard.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

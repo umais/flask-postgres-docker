@@ -1,0 +1,243 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-3">Dashboard</h1>
+    <p class="text-muted">Click on a module to drill down for more details.</p>
+
+    <div class="row">
+        <!-- Time and Effort Module -->
+        <div class="col-md-4 d-flex">
+            <div class="card shadow-sm flex-fill" style="height: 250px;">
+                <div class="card-header bg-primary text-white">
+                    Time and Effort
+                </div>
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 80%;">80% Complete</div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/module/time-effort" class="btn btn-sm btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Projects Module -->
+        <div class="col-md-4 d-flex">
+            <div class="card shadow-sm flex-fill" style="height: 250px;">
+                <div class="card-header bg-info text-white">
+                    New Projects
+                </div>
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <p>10 In Progress</p>
+                    <p>5 Under Contract</p>
+                    <p>7 Potential</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/module/new-projects" class="btn btn-sm btn-info">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Overview with Bar Chart -->
+        <div class="col-md-4 d-flex">
+            <div class="card shadow-sm flex-fill" style="height: 250px;">
+                <div class="card-header bg-warning text-white">
+                    Performance Overview
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <canvas id="barChart"></canvas>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/module/performance" class="btn btn-sm btn-warning">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Completion with Histogram -->
+        <div class="col-md-4 d-flex">
+            <div class="card shadow-sm flex-fill" style="height: 250px;">
+                <div class="card-header bg-danger text-white">
+                    Task Completion
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <canvas id="histogram"></canvas>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/module/task-completion" class="btn btn-sm btn-danger">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue Growth with Line Chart -->
+        <div class="col-md-4 d-flex">
+            <div class="card shadow-sm flex-fill" style="height: 250px;">
+                <div class="card-header bg-success text-white">
+                    Revenue Growth
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <canvas id="lineChart"></canvas>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/module/revenue" class="btn btn-sm btn-success">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Feedback -->
+        <div class="col-md-4 d-flex">
+            <div class="card shadow-sm flex-fill" style="height: 250px;">
+                <div class="card-header bg-secondary text-white">
+                    Customer Feedback
+                </div>
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <p>Average Rating: <strong>4.5 / 5</strong></p>
+                    <p class="text-muted">"Excellent service and support!"</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/module/feedback" class="btn btn-sm btn-secondary">View Details</a>
+                </div>
+            </div>
+        </div>
+             <!-- Bubble chart -->
+             <div class="col-md-4 d-flex">
+                <div class="card shadow-sm flex-fill" style="height: 250px;">
+                    <div class="card-header bg-info text-white">
+                        Bubble Chart
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-center">
+                        <canvas id="bubbleChart"></canvas>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="/module/feedback" class="btn btn-sm btn-info">View Details</a>
+                    </div>
+                </div>
+            </div>
+                      <!-- Bubble chart -->
+                      <div class="col-md-4 d-flex">
+                        <div class="card shadow-sm flex-fill" style="height: 250px;">
+                            <div class="card-header bg-info text-white">
+                                Doughnut Chart
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <canvas id="doughnutChart"></canvas>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="/module/feedback" class="btn btn-sm btn-info">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+    </div>
+</div>
+<div id="dashboard-content">
+    <p>Loading token...</p>
+  </div>
+
+  <script>
+    function displayToken() {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Unauthorized! Please log in.");
+        window.location.href = "/login";
+        return;
+      }
+
+      document.getElementById("dashboard-content").innerHTML = `
+        <h3>Your Bearer Token</h3>
+        <pre>${token}</pre>
+      `;
+    }
+
+    displayToken();
+  </script>
+
+<!-- Chart.js for Visualizations -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const ctxBar = document.getElementById("barChart").getContext("2d");
+    new Chart(ctxBar, {
+      type: "bar",
+      data: {
+        labels: ["Q1", "Q2", "Q3", "Q4"],
+        datasets: [{ label: "Sales", data: [15, 25, 30, 40], backgroundColor: "blue" }]
+      }
+    });
+
+    const ctxHist = document.getElementById("histogram").getContext("2d");
+    new Chart(ctxHist, {
+      type: "bar",
+      data: {
+        labels: ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"],
+        datasets: [{ label: "Task Completion", data: [5, 10, 15, 20, 25], backgroundColor: "green" }]
+      }
+    });
+
+    const ctxLine = document.getElementById("lineChart").getContext("2d");
+    new Chart(ctxLine, {
+      type: "line",
+      data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+        datasets: [{ label: "Revenue ($)", data: [5000, 7000, 8000, 12000, 15000], borderColor: "red", fill: false }]
+      }
+    });
+
+    const ctxBubble = document.getElementById("bubbleChart").getContext("2d");
+    new Chart(ctxBubble, {
+      type: "bubble",
+      data: {
+       
+        datasets: [{
+    label: 'First Dataset',
+    data: [{
+      x: 20,
+      y: 30,
+      r: 15
+    }, {
+      x: 40,
+      y: 10,
+      r: 10
+    }],
+    backgroundColor: 'rgb(255, 99, 132)'
+  }]
+      },
+  options: {
+    responsive: true,
+    scales: {
+      x: {
+        beginAtZero: true
+      },
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+    });
+
+    const ctxDougnut = document.getElementById("doughnutChart").getContext("2d");
+    new Chart(ctxDougnut, {
+      type: "doughnut",
+      data: {
+        labels: [
+    'Red',
+    'Blue',
+    'Yellow'
+  ],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [300, 50, 100],
+    backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'
+    ],
+    hoverOffset: 4
+  }]
+      }
+    });
+  });
+</script>
+
+{% endblock %}
