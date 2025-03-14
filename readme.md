@@ -33,9 +33,9 @@ Add the following variables to the .env file:
 DB_HOST=flaskapi_postgresql
 DB_NAME=flaskapi_db
 DB_USER=admin
-DB_PASS=Express1234%
+DB_PASS=Welcome1234%
 POSTGRES_USER=admin
-POSTGRES_PASSWORD=Express1234%
+POSTGRES_PASSWORD=Welcome1234%
 POSTGRES_DB=flaskapi_db
 ```
 **Note:** Be sure to replace the passwords and other sensitive data with your own values. Do not commit this file to version control. Add .env to your .gitignore to prevent it from being pushed to GitHub.
@@ -175,3 +175,49 @@ Fetches all users from the database.
 
 POST /users
 Adds a new user to the database. The request body should include UserName, email, and password.
+
+# DOCKER-COMPOSE COMMON KEYWORDS
+
+ Summary of Common Keywords
+
+version: Docker Compose file format version.
+
+services: Define containers (most important section).
+
+image: Specifies an image to use for a service.
+
+build: Specifies how to build an image for the service.
+
+ports: Maps container ports to host ports.
+
+depends_on: Ensures the start order of services.
+
+environment: Defines environment variables for a container.
+
+volumes: Mounts volumes into a container.
+
+command: Overrides the default command in the container.
+
+restart: Configures automatic container restart behavior.
+
+healthcheck: Defines how to check if a container is healthy.
+
+networks: Defines networks for container communication.
+
+extra_hosts: Adds custom entries to /etc/hosts.
+
+logging: Configures logging for services.
+
+deploy: Configures deployment settings for Docker Swarm.
+
+args: Defines build-time arguments.
+
+🔑 Summary of Key Differences between Dockerfile and Docker Compose File
+Aspect	Dockerfile	docker-compose.yml
+Purpose	Defines how to build an image	Defines how to run multiple containers (services)
+Scope	Single container configuration	Multiple containers and their relationships
+Focus	Building the image (install dependencies, copy files)	Service orchestration (networking, volumes, environment)
+Common Keywords	FROM, RUN, CMD, COPY, EXPOSE, ENV, USER	services, image, build, ports, depends_on, volumes
+Service Definition	Defines the setup for a single container	Defines multiple services (each corresponding to a container)
+Networking	No networking configurations	Configures networks for communication between services
+Persistent Data	No built-in volume management	Defines volumes to persist data across container restarts
