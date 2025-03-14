@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Insert a default admin user
 INSERT INTO users (username, email, pwd, userrole) 
-VALUES ('umais', 'umais.siddiqui@harriscountytx.gov', '$2b$12$QdaoxCLuDsApxz6wpRoA7OhN2aE6foVQ.oWa31qqDhfIan2u304mO', 'admin') 
+VALUES ('umais', 'umaisabdullah@gmail.com', '$2b$12$QdaoxCLuDsApxz6wpRoA7OhN2aE6foVQ.oWa31qqDhfIan2u304mO', 'admin') 
 ON CONFLICT (email) DO NOTHING;
 
 -- Create Applications table

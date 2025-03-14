@@ -19,7 +19,7 @@ ENV NAME=flask_api
 ENV DB_HOST=flaskapi_postgresql
 ENV DB_NAME=flaskapi_db
 ENV DB_USER=admin
-ENV DB_PASS=Express1234%
+ENV DB_PASS=Welcome1234%
 
 
 # Run Flask app
